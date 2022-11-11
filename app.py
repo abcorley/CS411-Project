@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_restful import Api, Resource
 import requests
-from json import loads
 
 URL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch"
 HEADERS = {
@@ -9,18 +8,20 @@ HEADERS = {
 	"X-RapidAPI-Host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com"
 }
 
-QUERY = {"query":"pasta", "number":5}
+DEFAULT_NUMBER = 5
 
-class Food(Resource):
+class FoodQuery(Resource):
 
-    def get(self):
+    def get(self, query):
+        QUERY = {"query": query, "number": DEFAULT_NUMBER}
         response = requests.request("GET", URL, headers=HEADERS, params=QUERY)
         result = response.json()
+        
         return result
 
 app = Flask(__name__)
 api = Api(app)
-api.add_resource(Food, "/food")
+api.add_resource(FoodQuery, "/food/<query>")
 
 if __name__ == '__main__':
     app.run(debug=True)
