@@ -11,14 +11,11 @@ export default function App() {
   };
 
   function foodSearchHandler() {
-    fetch("https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch?" 
-    + "query=" + enteredFoodText + "&" 
-    + "number=5",
+    fetch("https://10.192.18.181:5000/food/"  + enteredFoodText,
     {  
-      "method": "GET",
-      "headers": {
-        "X-RapidAPI-Key": "cdb6ec9b8cmsh402031dae04fa04p1f7011jsn40359d2736a6",
-        "X-RapidAPI-Host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com"
+      method: "GET",
+      headers: {
+        'Content-type': 'application/json'
       }
     })
       .then(response => response.json())
@@ -28,7 +25,7 @@ export default function App() {
       .catch(err => {
         console.log(err);
       });
-      
+
   }
 
   return (
