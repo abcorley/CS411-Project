@@ -1,11 +1,7 @@
-import { useNavigation } from '@react-navigation/core';
 import * as React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { auth } from '../firebase';
-
 import Profile from './Profile';
-import WorkoutResultsScreen from './WorkoutResultsScreen';
 import CreateWorkoutScreen from './CreateWorkoutScreen';
 import CalorieTracker from './CalorieTracker';
 
@@ -13,37 +9,12 @@ import CalorieTracker from './CalorieTracker';
 const Tab = createBottomTabNavigator();
 
 export default function HomeScreen() {
-  const navigation = useNavigation();
-  const handleSignOut = () => {
-    auth
-      .signOut()
-      .then(() => {
-        console.log('Signed Out');
-        navigation.replace('Login');
-      })
-      .catch((error) => alert(error.message));
-  };
-
   return (
-    // <View style={styles.container}>
-    //       <Text> Email: {auth.currentUser?.email} </Text>
-    //       <TouchableOpacity onPress={handleSignOut} style={styles.button}>
-    //           <Text style={styles.buttonText}>Sign out</Text>
-    //       </TouchableOpacity>
-    // </View>
-
     <Tab.Navigator>
       <Tab.Screen name="CreateWorkout" component={CreateWorkoutScreen} />
       <Tab.Screen name="Calorie Tracker" component={CalorieTracker} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
-
-    // <View>
-    //   <Text> Main Home </Text>
-    //   {/* <TouchableOpacity style={styles.button} onPress={handleSignOut}>
-    //     <Text style={styles.buttonText}>Sign out</Text>
-    //   </TouchableOpacity> */}
-    // </View>
   );
 }
 
