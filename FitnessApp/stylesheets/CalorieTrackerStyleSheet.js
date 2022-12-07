@@ -9,7 +9,7 @@ const CalorieTrackerStyleSheet = StyleSheet.create({
   },
   circle: {
     marginTop: 20,
-    marginLeft: 50,
+    marginLeft: 40,
     width: 300,
     height: 300,
     borderRadius: 150,
@@ -20,7 +20,7 @@ const CalorieTrackerStyleSheet = StyleSheet.create({
   },
   popupOverlay: {
     backgroundColor: 'white',
-    marginTop: 470,
+    marginTop: 350,
     flex: 1,
   },
   modal: {
