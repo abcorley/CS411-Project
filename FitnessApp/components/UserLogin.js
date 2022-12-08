@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import { auth } from '../firebase';
 import { useNavigation } from '@react-navigation/core';
+import { getDatabase, ref, set } from "firebase/database";
+import { db } from '../firebase';
 
 export default function UserLogin() {
     const [email, setEmail] = React.useState('');
@@ -36,6 +38,20 @@ export default function UserLogin() {
                 console.log('Registered with: ', user.email);
             })
             .catch(error => alert(error.message));
+        
+
+        console.log("submit new user creds");
+        set(ref(db, 'users/' + email), {
+            //username: name,
+            email: email,
+            password: password
+        }).then(() => {
+            //Data saved successfully
+            alert('data submitted');
+        }).catch((error) => {
+            //the write failed
+            alert(error);
+        });
     }
 
     const handleLogin = () => {
@@ -48,6 +64,21 @@ export default function UserLogin() {
             })
             .catch(error => alert(error.message));
     }
+
+    // function createSubmissionDB() {
+    //     console.log("IN CREATESUBMISSIONDB");
+    //     set(ref(db, 'users/' + email), {
+    //         //username: name,
+    //         email: email,
+    //         password: password
+    //     }).then(() => {
+    //         //Data saved successfully
+    //         alert('data submitted');
+    //     }).catch((error) => {
+    //         //the write failed
+    //         alert(error);
+    //     });
+    // }
 
     return (
       <KeyboardAvoidingView 

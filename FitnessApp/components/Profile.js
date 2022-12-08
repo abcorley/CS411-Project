@@ -11,7 +11,6 @@ import { useNavigation } from '@react-navigation/native';
 import { auth } from '../firebase';
 
 
-
 export default function Profile() {
 
     const navigation = useNavigation();
@@ -26,9 +25,19 @@ export default function Profile() {
          .catch(error => alert(error.message));
     }
 
+    // function storeHighScore(userId, score) {
+    
+    //     const db = getDatabase();
+    //     const reference = ref(db, 'users/' + userId);
+    //     set(reference, {
+    //         highscore: score,
+    //     });
+    // }
+
     return (
         <View style={styles.container}>
             <Text> Email: {auth.currentUser?.email} </Text>
+
             <TouchableOpacity onPress={handleSignOut} style={styles.button}>
                 <Text style={styles.buttonText}>Sign out</Text>
             </TouchableOpacity>
