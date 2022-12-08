@@ -1,8 +1,22 @@
 import * as React from 'react';
-import { KeyboardAvoidingView, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Text,
+  TextInput,
+  View,
+  TouchableOpacity,
+  Button,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/core';
+import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
 import { auth, database } from '../firebase';
 import LoginStyleSheet from '../stylesheets/LoginStyleSheet';
+
+const discovery = {
+  authorizationEndpoint: 'https://github.com/login/oauth/authorize',
+  tokenEndpoint: 'https://github.com/login/oauth/access_token',
+  revocationEndpoint: 'https://github.com/settings/connections/applications/9c8784b7b7c410187f4e',
+};
 
 export default function LoginScreen() {
   const [email, setEmail] = React.useState('');
@@ -53,6 +67,23 @@ export default function LoginScreen() {
       .catch((error) => alert(error.message));
   };
 
+  const [request, response, promptAsync] = useAuthRequest(
+    {
+      clientId: '9c8784b7b7c410187f4e',
+      scopes: ['identity'],
+      redirectUri: makeRedirectUri({
+        scheme: 'https://auth.expo.io/@abcorley/FitnessApp',
+      }),
+    },
+    discovery
+  );
+
+  React.useEffect(() => {
+    if (response?.type === 'success') {
+      const { code } = response.params;
+    }
+  }, [response]);
+
   return (
     <KeyboardAvoidingView style={LoginStyleSheet.container} behavior="padding">
       <View style={LoginStyleSheet.inputContainer}>
@@ -81,6 +112,13 @@ export default function LoginScreen() {
           <Text style={LoginScreen.buttonOutlineText}>Register</Text>
         </TouchableOpacity>
       </View>
+      <Button
+        disabled={!request}
+        title="Login"
+        onPress={() => {
+          promptAsync();
+        }}
+      />
     </KeyboardAvoidingView>
   );
 }
