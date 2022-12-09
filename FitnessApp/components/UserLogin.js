@@ -2,10 +2,14 @@ import * as React from 'react';
 import { KeyboardAvoidingView, Text, TextInput, View, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
-import { Button } from 'react-native-elements';
+import * as WebBrowser from 'expo-web-browser';
 import { auth, database } from '../firebase';
 import LoginStyleSheet from '../stylesheets/LoginStyleSheet';
+import { Button } from 'react-native';
 
+WebBrowser.maybeCompleteAuthSession();
+
+// Endpoint
 const discovery = {
   authorizationEndpoint: 'https://github.com/login/oauth/authorize',
   tokenEndpoint: 'https://github.com/login/oauth/access_token',
@@ -68,7 +72,7 @@ export default function LoginScreen() {
       clientId: '9c8784b7b7c410187f4e',
       scopes: ['identity'],
       redirectUri: makeRedirectUri({
-        scheme: 'https://auth.expo.io/@abcorley/FitnessApp',
+        scheme: 'exp://10.239.239.100:19000',
       }),
     },
     discovery
@@ -107,14 +111,13 @@ export default function LoginScreen() {
         >
           <Text style={LoginScreen.buttonOutlineText}>Register</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={[LoginStyleSheet.button, LoginStyleSheet.buttonOutline]}
-          onPress={() => {
-            promptAsync();
-          }}
-        >
-          <Text style={LoginScreen.buttonOutlineText}> Sign in With Github</Text>
-        </TouchableOpacity>
+        <Button
+      disabled={!request}
+      title="Login"
+      onPress={() => {
+        promptAsync();
+      }}
+    />
       </View>
     </KeyboardAvoidingView>
   );
