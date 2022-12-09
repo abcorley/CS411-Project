@@ -1,14 +1,8 @@
 import * as React from 'react';
-import {
-  KeyboardAvoidingView,
-  Text,
-  TextInput,
-  View,
-  TouchableOpacity,
-  Button,
-} from 'react-native';
+import { KeyboardAvoidingView, Text, TextInput, View, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
+import { Button } from 'react-native-elements';
 import { auth, database } from '../firebase';
 import LoginStyleSheet from '../stylesheets/LoginStyleSheet';
 
@@ -113,14 +107,15 @@ export default function LoginScreen() {
         >
           <Text style={LoginScreen.buttonOutlineText}>Register</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={[LoginStyleSheet.button, LoginStyleSheet.buttonOutline]}
+          onPress={() => {
+            promptAsync();
+          }}
+        >
+          <Text style={LoginScreen.buttonOutlineText}> Sign in With Github</Text>
+        </TouchableOpacity>
       </View>
-      <Button
-        disabled={!request}
-        title="Login"
-        onPress={() => {
-          promptAsync();
-        }}
-      />
     </KeyboardAvoidingView>
   );
 }
