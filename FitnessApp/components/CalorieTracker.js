@@ -27,7 +27,7 @@ export default function CalorieTracker({ navigation }) {
 
   function updateCalories() {
     const userRef = database.ref(`users/${user}`);
-    const newTotal = number + calories;
+    const newTotal = parseInt(number) + parseInt(calories);
     userRef.update({ totalCalories: newTotal });
     onCalorieChange(newTotal);
   }
