@@ -20,7 +20,7 @@ const CalorieTrackerStyleSheet = StyleSheet.create({
   },
   popupOverlay: {
     backgroundColor: 'white',
-    marginTop: 350,
+    marginTop: 110,
     flex: 1,
   },
   modal: {

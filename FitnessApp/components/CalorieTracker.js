@@ -1,17 +1,42 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { Text, View, Modal, Alert, Pressable, TextInput, SafeAreaView } from 'react-native';
+import { Text, View, Modal, Alert, Pressable, TextInput } from 'react-native';
+import { database, auth } from '../firebase';
 import CalorieTrackerStyleSheet from '../stylesheets/CalorieTrackerStyleSheet';
 
 export default function CalorieTracker({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [text, onChangeText] = React.useState(null);
-  const [number, onChangeNumber] = React.useState(null);
+  const [number, onChangeNumber] = React.useState(0);
+  const [calories, onCalorieChange] = React.useState(0);
+
+  // Get User
+  const user = auth.currentUser.uid;
+  const totalCalories = database.ref(`users/${user}/totalCalories`);
+
+  totalCalories.get(
+    'value',
+    (snapshot) => {
+      console.log(snapshot.val());
+      onCalorieChange(snapshot.val());
+    },
+    function (error) {
+      console.log(`Error: ${error.code}`);
+    }
+  );
+
+  function updateCalories() {
+    const userRef = database.ref(`users/${user}`);
+    const newTotal = number + calories;
+    userRef.update({ totalCalories: newTotal });
+    onCalorieChange(newTotal);
+  }
+
   return (
     <View>
       <Text style={CalorieTrackerStyleSheet.header}>Total Calories Today</Text>
       <View style={CalorieTrackerStyleSheet.circle}>
-        <Text>Calories</Text>
+        <Text>{calories} Calories</Text>
       </View>
       <Modal
         animationType="slide"
@@ -24,26 +49,27 @@ export default function CalorieTracker({ navigation }) {
       >
         <View style={CalorieTrackerStyleSheet.popupOverlay}>
           <View style={CalorieTrackerStyleSheet.modal}>
-            <SafeAreaView>
-              <Text>Name</Text>
-              <TextInput
-                style={CalorieTrackerStyleSheet.input}
-                onChangeText={onChangeText}
-                value={text}
-                placeholder="Enter Name of Item"
-              />
-              <Text>Calories</Text>
-              <TextInput
-                style={CalorieTrackerStyleSheet.input}
-                onChangeText={onChangeNumber}
-                value={number}
-                placeholder="Enter Calories"
-                keyboardType="numeric"
-              />
-            </SafeAreaView>
+            <Text>Name</Text>
+            <TextInput
+              style={CalorieTrackerStyleSheet.input}
+              onChangeText={onChangeText}
+              value={text}
+              placeholder="Enter Name of Item"
+            />
+            <Text>Calories</Text>
+            <TextInput
+              style={CalorieTrackerStyleSheet.input}
+              onChangeText={onChangeNumber}
+              value={number}
+              placeholder="Enter Calories"
+              keyboardType="numeric"
+            />
             <Pressable
               style={CalorieTrackerStyleSheet.modalCloseButton}
-              onPress={() => setModalVisible(!modalVisible)}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+                updateCalories();
+              }}
             >
               <Text>Add</Text>
             </Pressable>
@@ -52,7 +78,9 @@ export default function CalorieTracker({ navigation }) {
       </Modal>
       <Pressable
         style={CalorieTrackerStyleSheet.modalOpenButton}
-        onPress={() => setModalVisible(true)}
+        onPress={() => {
+          setModalVisible(true);
+        }}
       >
         <Text style={CalorieTrackerStyleSheet.text}>Add Calories</Text>
       </Pressable>

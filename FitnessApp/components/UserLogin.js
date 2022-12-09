@@ -25,6 +25,8 @@ export default function LoginScreen() {
     console.log(userCredentials.uid);
     database.ref(`users/${userCredentials.uid}`).set({
       email: userCredentials.email,
+      totalCalories: 0,
+      calorieItems: [],
     });
   }
 
