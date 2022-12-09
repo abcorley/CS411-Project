@@ -79,11 +79,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#ecf0f1',
-    height: 80, 
+    height: 200, 
   },
   instructions: {
     marginTop: 40,
-    marginBottom: 20
+    marginBottom: 20,
+    height: 180
   },
   image: {
     width: '97.5%', 
