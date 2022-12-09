@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Profile from './Profile';
 import CreateWorkoutScreen from './CreateWorkoutScreen';
 import CalorieTracker from './CalorieTracker';
+import RecipeScreen from './RecipeScreen';
 
 // MAYBE ADD NAVBAR HERE FOR OTHER PAGES??
 const Tab = createBottomTabNavigator();
@@ -13,6 +14,7 @@ export default function HomeScreen() {
     <Tab.Navigator>
       <Tab.Screen name="CreateWorkout" component={CreateWorkoutScreen} />
       <Tab.Screen name="Calorie Tracker" component={CalorieTracker} />
+      <Tab.Screen name="RecipeScreen" component={RecipeScreen} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );
