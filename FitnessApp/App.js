@@ -7,6 +7,7 @@ import RecipeResults from './components/RecipeResults';
 import RecipeScreen from './components/RecipeScreen';
 import HomeScreen from './components/HomeScreen';
 import UserLogin from './components/UserLogin';
+import SignUp from './components/SignUp';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,11 +16,11 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Login" component={UserLogin} />
+        <Stack.Screen name="Sign Up" component={SignUp} />
         <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="WorkoutResults" component={WorkoutResultsScreen} />
         <Stack.Screen name="RecipeScreen" component={RecipeScreen} />
         <Stack.Screen name="RecipeResults" component={RecipeResults} />
-
       </Stack.Navigator>
     </NavigationContainer>
   );
