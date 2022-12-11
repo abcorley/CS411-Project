@@ -40,6 +40,7 @@ export default function LoginScreen() {
     database.ref(`users/${userCredentials.uid}`).set({
       email: userCredentials.email,
       totalCalories: 0,
+      foodAndDrink: null,
     });
   }
 

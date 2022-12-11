@@ -7,6 +7,11 @@ const CalorieTrackerStyleSheet = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'medium',
   },
+  inCircleText: {
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'medium',
+  },
   circle: {
     marginTop: 20,
     marginLeft: 40,
