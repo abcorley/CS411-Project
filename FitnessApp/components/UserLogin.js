@@ -1,15 +1,19 @@
 import * as React from 'react';
-import { KeyboardAvoidingView, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Text,
+  TextInput,
+  View,
+  TouchableOpacity,
+  Button,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
-import * as WebBrowser from 'expo-web-browser';
+import { Octokit } from '@octokit/core';
 import { auth, database } from '../firebase';
 import LoginStyleSheet from '../stylesheets/LoginStyleSheet';
-import { Button } from 'react-native';
 
-WebBrowser.maybeCompleteAuthSession();
-
-// Endpoint
+// Endpoint for Github OAuth
 const discovery = {
   authorizationEndpoint: 'https://github.com/login/oauth/authorize',
   tokenEndpoint: 'https://github.com/login/oauth/access_token',
@@ -25,7 +29,6 @@ export default function LoginScreen() {
   React.useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        console.log('test');
         navigation.replace('Home');
       }
     });
@@ -34,11 +37,9 @@ export default function LoginScreen() {
 
   // Function to add new user to database
   function writeUserData(userCredentials) {
-    console.log(userCredentials.uid);
     database.ref(`users/${userCredentials.uid}`).set({
       email: userCredentials.email,
       totalCalories: 0,
-      calorieItems: [],
     });
   }
 
@@ -48,7 +49,6 @@ export default function LoginScreen() {
       .createUserWithEmailAndPassword(email, password)
       .then((userCredentials) => {
         const { user } = userCredentials;
-        console.log(user.uid);
         console.log('submit new user creds');
         writeUserData(user);
         console.log('Registered with: ', user.email);
@@ -67,6 +67,7 @@ export default function LoginScreen() {
       .catch((error) => alert(error.message));
   };
 
+  // Authorization Request for github
   const [request, response, promptAsync] = useAuthRequest(
     {
       clientId: '9c8784b7b7c410187f4e',
@@ -78,9 +79,23 @@ export default function LoginScreen() {
     discovery
   );
 
+  //Code to get gitHub user email
+  async function getUserEmail(code) {
+    const octokit = new Octokit({
+      auth: code,
+    });
+    const gitresponse = await octokit.request('GET /user', {});
+    console.log(gitresponse);
+  }
+
   React.useEffect(() => {
     if (response?.type === 'success') {
+      console.log(response);
       const { code } = response.params;
+      const { authentication: { accessToken } } = response;
+      console.log(accessToken);
+      getUserEmail(accessToken);
+      navigation.replace('Home');
     }
   }, [response]);
 
@@ -112,12 +127,13 @@ export default function LoginScreen() {
           <Text style={LoginScreen.buttonOutlineText}>Register</Text>
         </TouchableOpacity>
         <Button
-      disabled={!request}
-      title="Login"
-      onPress={() => {
-        promptAsync();
-      }}
-    />
+          disabled={!request}
+          title="Login With GitHub Here"
+          onPress={() => {
+            promptAsync();
+            getUserEmail();
+          }}
+        />
       </View>
     </KeyboardAvoidingView>
   );
