@@ -5,13 +5,22 @@ import Profile from './Profile';
 import CreateWorkoutScreen from './CreateWorkoutScreen';
 import CalorieTracker from './CalorieTracker';
 import RecipeScreen from './RecipeScreen';
+import Home from './Home';
+
+
 
 // MAYBE ADD NAVBAR HERE FOR OTHER PAGES??
 const Tab = createBottomTabNavigator();
 
 export default function HomeScreen() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator 
+    screenOptions={{
+      tabBarActiveTintColor: 'red',
+      badgeColor: 'green'
+    }}>
+      
+      <Tab.Screen name="Home" component={Home}/>
       <Tab.Screen name="CreateWorkout" component={CreateWorkoutScreen} />
       <Tab.Screen name="Calorie Tracker" component={CalorieTracker} />
       <Tab.Screen name="RecipeScreen" component={RecipeScreen} />

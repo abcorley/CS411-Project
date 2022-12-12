@@ -72,7 +72,8 @@ export default function RecipeScreen({ navigation }) {
 
 const searchBarStyles = StyleSheet.create({
   container: {
-    margin: 0,
+    marginTop: 20,
+    marginBottom: 20,
     justifyContent: 'flex-start',
     alignItems: 'center',
     flexDirection: 'row',
@@ -93,7 +94,7 @@ const searchBarStyles = StyleSheet.create({
   button: {
     paddingTop: 8,
     paddingBottom: 8,
-    backgroundColor: '#0782f9',
+    backgroundColor: '#AFA767',
     width: '95%',
     marginLeft: 9,
     marginVertical: 10,

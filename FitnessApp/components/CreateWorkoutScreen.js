@@ -67,7 +67,7 @@ export default function CreateWorkoutScreen({ navigation }) {
 
   return (
     <View style={CreateWorkoutStyleSheet.container}>
-      <Text style={{ marginTop: 8, fontSize: 15, marginBottom: 8 }}>Days to Workout</Text>
+      <Text style={{ marginTop: 8, fontSize: 15, fontWeight: 'bold', marginBottom: 8 }}>Days to Workout</Text>
       <MultiSelect
         style={CreateWorkoutStyleSheet.dropdown}
         placeholderStyle={CreateWorkoutStyleSheet.placeholderStyle}
@@ -90,7 +90,7 @@ export default function CreateWorkoutScreen({ navigation }) {
           </TouchableOpacity>
         )}
       />
-      <Text style={{ marginTop: 8, fontSize: 15, marginBottom: 8 }}>Select Target Areas</Text>
+      <Text style={{ marginTop: 8, fontSize: 15, fontWeight: 'bold', marginBottom: 8 }}>Select Target Areas</Text>
       <MultiSelect
         style={CreateWorkoutStyleSheet.dropdown}
         placeholderStyle={CreateWorkoutStyleSheet.placeholderStyle}
@@ -107,7 +107,7 @@ export default function CreateWorkoutScreen({ navigation }) {
         renderItem={renderItem}
         renderSelectedItem={(item, unSelect) => (
           <TouchableOpacity onPress={() => unSelect && unSelect(item)}>
-            <View style={CreateWorkoutScreen.selectedStyle}>
+            <View style={CreateWorkoutStyleSheet.selectedStyle}>
               <Text style={CreateWorkoutStyleSheet.textSelectedStyle}>{item.label}</Text>
             </View>
           </TouchableOpacity>
