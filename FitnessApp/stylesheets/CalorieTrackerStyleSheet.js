@@ -1,16 +1,15 @@
 import { StyleSheet } from 'react-native';
 
-
 const CalorieTrackerStyleSheet = StyleSheet.create({
   header: {
     textAlign: 'center',
     marginTop: 15,
     fontSize: 20,
-    fontWeight: 'medium',
+    fontWeight: 'bold',
   },
   inCircleText: {
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: 'bold',
   },
   circle: {

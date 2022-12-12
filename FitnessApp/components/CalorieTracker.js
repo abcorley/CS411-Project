@@ -95,7 +95,11 @@ export default function CalorieTracker({ navigation }) {
       <FlatList
         data={foodAndDrink}
         keyExtractor={(item) => item.key}
-        renderItem={({ item }) => <Text> {item.info.name}:{item.info.calories} calories </Text>}
+        renderItem={({ item }) => (
+          <Text>
+            {item.info.name}:{item.info.calories} calories
+          </Text>
+        )}
       />
     );
   }
@@ -104,7 +108,7 @@ export default function CalorieTracker({ navigation }) {
     <View>
       <Text style={CalorieTrackerStyleSheet.header}>Total Calories Today</Text>
       <View style={CalorieTrackerStyleSheet.circle}>
-        <Text>{calories} Calories</Text>
+        <Text style={CalorieTrackerStyleSheet.inCircleText}>{calories} Calories</Text>
       </View>
       <Modal
         animationType="slide"

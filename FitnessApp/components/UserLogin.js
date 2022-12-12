@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { Text, TextInput, View, TouchableOpacity, Button } from 'react-native';
+import { Text, TextInput, View, TouchableOpacity } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useNavigation } from '@react-navigation/core';
 import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
-import { Octokit } from '@octokit/core';
 import { auth } from '../firebase';
 import LoginStyleSheet from '../stylesheets/LoginStyleSheet';
 
@@ -23,7 +22,7 @@ export default function LoginScreen() {
   React.useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        navigation.replace('Home');
+        navigation.replace('Root');
       }
     });
     return unsubscribe;
@@ -74,7 +73,7 @@ export default function LoginScreen() {
       } = response;
       console.log(accessToken);
       getUserEmail(accessToken); */
-      navigation.replace('Home');
+      navigation.replace('Root');
     }
   }, [response]);
 
