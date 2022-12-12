@@ -1,16 +1,10 @@
 import * as React from 'react';
-import {
-  KeyboardAvoidingView,
-  Text,
-  TextInput,
-  View,
-  TouchableOpacity,
-  Button,
-} from 'react-native';
+import { Text, TextInput, View, TouchableOpacity, Button } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useNavigation } from '@react-navigation/core';
 import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
 import { Octokit } from '@octokit/core';
-import { auth, database } from '../firebase';
+import { auth } from '../firebase';
 import LoginStyleSheet from '../stylesheets/LoginStyleSheet';
 
 // Endpoint for Github OAuth
@@ -35,28 +29,6 @@ export default function LoginScreen() {
     return unsubscribe;
   }, []);
 
-  // Function to add new user to database
-  function writeUserData(userCredentials) {
-    database.ref(`users/${userCredentials.uid}`).set({
-      email: userCredentials.email,
-      totalCalories: 0,
-      foodAndDrink: null,
-    });
-  }
-
-  const handleSignUp = () => {
-    console.log('IN HANDLESIGNUP');
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((userCredentials) => {
-        const { user } = userCredentials;
-        console.log('submit new user creds');
-        writeUserData(user);
-        console.log('Registered with: ', user.email);
-      })
-      .catch((error) => alert(error.message));
-  };
-
   const handleLogin = () => {
     console.log('IN HANDLELOGIN');
     auth
@@ -66,6 +38,10 @@ export default function LoginScreen() {
         console.log('Logged in with: ', user.email);
       })
       .catch((error) => alert(error.message));
+  };
+
+  const onFooterLinkPress = () => {
+    navigation.navigate('Sign Up');
   };
 
   // Authorization Request for github
@@ -80,62 +56,73 @@ export default function LoginScreen() {
     discovery
   );
 
-  //Code to get gitHub user email
-  async function getUserEmail(code) {
+  // Code to get gitHub user email
+  /* async function getUserEmail(code) {
     const octokit = new Octokit({
       auth: code,
     });
     const gitresponse = await octokit.request('GET /user', {});
     console.log(gitresponse);
-  }
+  } */
 
   React.useEffect(() => {
     if (response?.type === 'success') {
       console.log(response);
       const { code } = response.params;
-      const { authentication: { accessToken } } = response;
+      /* const {
+        authentication: { accessToken },
+      } = response;
       console.log(accessToken);
-      getUserEmail(accessToken);
+      getUserEmail(accessToken); */
       navigation.replace('Home');
     }
   }, [response]);
 
   return (
-    <KeyboardAvoidingView style={LoginStyleSheet.container} behavior="padding">
-      <View style={LoginStyleSheet.inputContainer}>
+    <View style={LoginStyleSheet.container}>
+      <KeyboardAwareScrollView
+        style={{ flex: 1, width: '100%' }}
+        keyboardShouldPersistTaps="always"
+      >
         <TextInput
-          placeholder="Email"
-          value={email}
+          style={LoginStyleSheet.input}
+          placeholder="E-mail"
+          placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setEmail(text)}
-          style={LoginStyleSheet.input}
+          value={email}
+          autoCapitalize="none"
         />
         <TextInput
-          placeholder="Password"
-          value={password}
-          onChangeText={(text) => setPassword(text)}
           style={LoginStyleSheet.input}
+          placeholderTextColor="#aaaaaa"
           secureTextEntry
+          placeholder="Password"
+          onChangeText={(text) => setPassword(text)}
+          value={password}
+          autoCapitalize="none"
         />
-      </View>
-      <View style={LoginStyleSheet.buttonContainer}>
-        <TouchableOpacity onPress={handleLogin} style={LoginStyleSheet.button}>
-          <Text style={LoginScreen.buttonText}>Login</Text>
+        <TouchableOpacity style={LoginStyleSheet.button} onPress={() => handleLogin()}>
+          <Text style={LoginStyleSheet.buttonTitle}>Log in</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={handleSignUp}
-          style={[LoginStyleSheet.button, LoginStyleSheet.buttonOutline]}
-        >
-          <Text style={LoginScreen.buttonOutlineText}>Register</Text>
-        </TouchableOpacity>
-        <Button
-          disabled={!request}
-          title="Login With GitHub Here"
-          onPress={() => {
-            promptAsync();
-            getUserEmail();
-          }}
-        />
-      </View>
-    </KeyboardAvoidingView>
+        <View style={LoginStyleSheet.gitHubButton}>
+          <Text
+            onPress={() => {
+              promptAsync();
+              // getUserEmail();
+            }}
+          >
+            Sign Up With Github
+          </Text>
+        </View>
+        <View style={LoginStyleSheet.footerView}>
+          <Text style={LoginStyleSheet.footerText}>
+            Don't have an account?{' '}
+            <Text onPress={onFooterLinkPress} style={LoginStyleSheet.footerLink}>
+              Sign up
+            </Text>
+          </Text>
+        </View>
+      </KeyboardAwareScrollView>
+    </View>
   );
 }

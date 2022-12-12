@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-const LoginStyleSheet = StyleSheet.create({
+const SignUpStyleSheet = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
@@ -46,19 +46,6 @@ const LoginStyleSheet = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
-  gitHubButton: {
-    backgroundColor: 'white',
-    marginLeft: 30,
-    marginRight: 30,
-    marginTop: 20,
-    height: 48,
-    borderRadius: 5,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderColor: 'black',
-    borderWidth: 1,
-  },
 });
 
-export default LoginStyleSheet;
+export default SignUpStyleSheet;
