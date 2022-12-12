@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 
+
 const CalorieTrackerStyleSheet = StyleSheet.create({
   header: {
     textAlign: 'center',
@@ -14,12 +15,12 @@ const CalorieTrackerStyleSheet = StyleSheet.create({
     height: 300,
     borderRadius: 150,
     borderWidth: 20,
-    borderColor: '#2485F8',
+    borderColor: '#E6D1D0',
     justifyContent: 'center',
     alignItems: 'center',
   },
   popupOverlay: {
-    backgroundColor: 'white',
+    backgroundColor: '#D7D98C',
     marginTop: 110,
     flex: 1,
   },
@@ -33,14 +34,14 @@ const CalorieTrackerStyleSheet = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
     elevation: 2,
-    backgroundColor: '#2485F8',
+    backgroundColor: '#AFA767',
   },
   modalOpenButton: {
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 22,
-    backgroundColor: '#2485F8',
-    color: 'white',
+    backgroundColor: '#AFA767',
+    color: '#2E534A',
     width: 150,
     height: 30,
     borderRadius: 12,

@@ -5,16 +5,21 @@ const CreateWorkoutStyleSheet = StyleSheet.create({
     flex: 1,
   },
   button: {
-    backgroundColor: '#008CBA',
+    backgroundColor: '#AFA767',
     color: 'white',
-    width: 100,
+    width: 200,
+    height: 50,
     borderRadius: 12,
-    padding: 1,
+    padding: 2,
     alignSelf: 'center',
-    marginTop: 10,
+    marginTop: 70,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   text: {
     color: 'white',
+    fontSize: '17',
+    fontWeight: 'bold',
     textAlign: 'center',
   },
   dropdown: {
@@ -22,7 +27,7 @@ const CreateWorkoutStyleSheet = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 12,
     padding: 12,
-    shadowColor: '#000',
+    shadowColor: '#E6D1D0',
     shadowOffset: {
       width: 0,
       height: 1,
@@ -33,10 +38,10 @@ const CreateWorkoutStyleSheet = StyleSheet.create({
     elevation: 2,
   },
   placeholderStyle: {
-    fontSize: 16,
+    fontSize: 15,
   },
   selectedTextStyle: {
-    fontSize: 14,
+    fontSize: 15,
   },
   item: {
     padding: 17,
@@ -49,7 +54,7 @@ const CreateWorkoutStyleSheet = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 14,
-    backgroundColor: 'white',
+    backgroundColor: '#E6D1D0',
     shadowColor: '#000',
     marginTop: 8,
     marginRight: 12,
@@ -66,7 +71,7 @@ const CreateWorkoutStyleSheet = StyleSheet.create({
   },
   textSelectedStyle: {
     marginRight: 5,
-    fontSize: 16,
+    fontSize: 15,
   },
 });
 
