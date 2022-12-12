@@ -65,6 +65,7 @@ const CalorieTrackerStyleSheet = StyleSheet.create({
   },
   listHeader: {
     marginLeft: 10,
+    marginTop: 10,
     fontSize: 30,
     fontWeight: 'medium',
   },

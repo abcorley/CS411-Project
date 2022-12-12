@@ -87,6 +87,7 @@ export default function CalorieTracker({ navigation }) {
     }
   }
 
+  // Conditional function
   function renderFoodAndDrink() {
     if (foodAndDrink.length === 0) {
       return (
@@ -99,7 +100,7 @@ export default function CalorieTracker({ navigation }) {
         keyExtractor={(item) => item.key}
         renderItem={({ item }) => (
           <Text style={CalorieTrackerStyleSheet.listText}>
-            {item.info.name}:{item.info.calories} calories
+            {item.info.name}: {item.info.calories} calories
           </Text>
         )}
       />

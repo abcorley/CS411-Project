@@ -38,7 +38,7 @@ export default function SignUp({ navigation }) {
   React.useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        navigation.replace('Home');
+        navigation.replace('Root');
       }
     });
     return unsubscribe;
