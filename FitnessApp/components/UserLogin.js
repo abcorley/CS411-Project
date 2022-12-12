@@ -83,6 +83,7 @@ export default function LoginScreen() {
         style={{ flex: 1, width: '100%' }}
         keyboardShouldPersistTaps="always"
       >
+        <Text style={LoginStyleSheet.title_text}> GetFit </Text>
         <TextInput
           style={LoginStyleSheet.input}
           placeholder="E-mail"

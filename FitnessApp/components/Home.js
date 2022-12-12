@@ -25,7 +25,7 @@ export default function Home({ navigation }) {
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('CreateWorkout')}
+          onPress={() => navigation.navigate('CreateWorkoutScreen')}
         >
           <Text style={ProfileStyleSheet.buttonText}>Create Workout</Text>
         </TouchableOpacity>

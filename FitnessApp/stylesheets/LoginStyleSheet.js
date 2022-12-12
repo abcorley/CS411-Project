@@ -5,7 +5,11 @@ const LoginStyleSheet = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
-  title: {},
+  title_text: {
+    fontSize: 50,
+    marginLeft: 122,
+    marginTop: 130,
+  },
   input: {
     height: 48,
     borderRadius: 5,
