@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { Text, View, Modal, Alert, Pressable, TextInput, FlatList, Item } from 'react-native';
+import { Text, View, Modal, Alert, Pressable, TextInput, FlatList } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { database, auth } from '../firebase';
 import CalorieTrackerStyleSheet from '../stylesheets/CalorieTrackerStyleSheet';
 
@@ -9,64 +10,87 @@ export default function CalorieTracker({ navigation }) {
   const [name, onChangeName] = React.useState(null);
   const [addedCalories, onAddCalories] = React.useState(0);
   const [calories, onCalorieChange] = React.useState(0);
+  const [foodAndDrink, onItemChange] = React.useState([]);
 
   // Get User
   const user = auth.currentUser.uid;
-  const totalCalories = database.ref(`users/${user}/totalCalories`);
-  const foodAndDrink = database.ref(`users/${user}/foodAndDrink`);
+  const totalCaloriesRef = database.ref(`users/${user}/totalCalories`);
+  const foodAndDrinkRef = database.ref(`users/${user}/foodAndDrink`);
 
   // Get the Current totalCalories stored for the user
-  totalCalories.get(
-    'value',
-    (snapshot) => {
-      console.log(snapshot.val());
-      onCalorieChange(snapshot.val());
-    },
-    function (error) {
-      console.log(`Error: ${error.code}`);
-    }
-  );
+  function getCalories() {
+    let currCalories;
+    totalCaloriesRef.on(
+      'value',
+      (snapshot) => {
+        console.log('Reading Total calories');
+        currCalories = snapshot.val();
+      },
+      function (error) {
+        console.log(`Error: ${error.code}`);
+      }
+    );
+    return currCalories;
+  }
 
-  foodAndDrink.get(
-    'value',
-    (snapshot) => {
-      console.log(snapshot.val());
-      onCalorieChange(snapshot.val());
-    },
-    function (error) {
-      console.log(`Error: ${error.code}`);
-    }
-  );
+  React.useEffect(() => {
+    onCalorieChange(getCalories());
+  }, []);
 
-  function updateCaloriesFoodDrink() {
+  function getFoodAndDrink() {
+    console.log('Read DB');
+    const curItems = [];
+    foodAndDrinkRef.on(
+      'value',
+      (snapshot) => {
+        snapshot.forEach((childSnapshot) => {
+          items.push({
+            id: childSnapshot.key,
+            info: childSnapshot.val(),
+          });
+          console.log(childSnapshot.key);
+          console.log(childSnapshot.val());
+        });
+        console.log(foodAndDrink);
+      },
+      function (error) {
+        console.log(`Error: ${error.code}`);
+      }
+    );
+    return curItems;
+  }
+
+  function updateCalories() {
     const userRef = database.ref(`users/${user}`);
     const newTotal = parseInt(addedCalories) + parseInt(calories);
     userRef.update({ totalCalories: newTotal });
-    onCalorieChange(newTotal);
-    const foodAndDrinkRef = userRef.child('foodAndDrink');
-    foodAndDrinkRef.push({
-      item: name,
-      calories: addedCalories,
-    });
   }
 
-  const renderFoodAndDrink = ({ item }) => {
-    return <Item item={item} />;
-  };
+  function updateFoodAndDrink() {
+    const userRef = database.ref(`users/${user}`);
+    const ref = userRef.child('foodAndDrink');
+    ref
+      .push({
+        item: name,
+        calories: addedCalories,
+      })
+      .getKey();
+    console.log('Update');
+    getFoodAndDrink();
+    console.log(foodAndDrink);
+  }
+
+  getCalories();
+  getFoodAndDrink();
+  console.log('Initial');
+  console.log(calories);
+  console.log(foodAndDrink);
 
   return (
     <View>
       <Text style={CalorieTrackerStyleSheet.header}>Total Calories Today</Text>
       <View style={CalorieTrackerStyleSheet.circle}>
         <Text style={CalorieTrackerStyleSheet.inCircleText}>{calories} Calories</Text>
-      </View>
-      <View>
-        <Text>What You&apos;ve Consumed Today</Text>
-        <FlatList
-          data={foodAndDrink}
-          renderItem={renderFoodAndDrink}
-          keyExtractor={(item) => item.item}
-        />
       </View>
       <Modal
         animationType="slide"
@@ -98,7 +122,8 @@ export default function CalorieTracker({ navigation }) {
               style={CalorieTrackerStyleSheet.modalCloseButton}
               onPress={() => {
                 setModalVisible(!modalVisible);
-                updateCaloriesFoodDrink();
+                updateCalories();
+                updateFoodAndDrink();
               }}
             >
               <Text>Add</Text>
@@ -114,6 +139,12 @@ export default function CalorieTracker({ navigation }) {
       >
         <Text style={CalorieTrackerStyleSheet.text}>Add Calories</Text>
       </Pressable>
+      <View>
+        <Text>What You&apos;ve Consumed Today</Text>
+        <View>
+          <Text>You haven&apos;t logged anything for today</Text>;
+        </View>
+      </View>
     </View>
   );
 }

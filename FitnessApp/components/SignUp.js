@@ -16,6 +16,7 @@ export default function SignUp({ navigation }) {
       name: fullName,
       email: userCredentials.email,
       totalCalories: 0,
+      foodAndDrink: null,
     });
   }
 
