@@ -63,6 +63,16 @@ const CalorieTrackerStyleSheet = StyleSheet.create({
   text: {
     color: 'white',
   },
+  listHeader: {
+    marginLeft: 10,
+    fontSize: 30,
+    fontWeight: 'medium',
+  },
+  listText: {
+    marginLeft: 10,
+    fontSize: 20,
+    fontWeight: 'medium',
+  }
 });
 
 export default CalorieTrackerStyleSheet;

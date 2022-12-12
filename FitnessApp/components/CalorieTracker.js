@@ -89,14 +89,16 @@ export default function CalorieTracker({ navigation }) {
 
   function renderFoodAndDrink() {
     if (foodAndDrink.length === 0) {
-      return <Text>You have not logged anything today</Text>;
+      return (
+        <Text style={CalorieTrackerStyleSheet.listText}>You have not logged anything today</Text>
+      );
     }
     return (
       <FlatList
         data={foodAndDrink}
         keyExtractor={(item) => item.key}
         renderItem={({ item }) => (
-          <Text>
+          <Text style={CalorieTrackerStyleSheet.listText}>
             {item.info.name}:{item.info.calories} calories
           </Text>
         )}
@@ -157,7 +159,7 @@ export default function CalorieTracker({ navigation }) {
       >
         <Text style={CalorieTrackerStyleSheet.text}>Add Calories</Text>
       </Pressable>
-      <Text>Food and Drink Items</Text>
+      <Text style={CalorieTrackerStyleSheet.listHeader}>Food and Drink Items</Text>
       {renderFoodAndDrink()}
     </View>
   );
