@@ -18,7 +18,7 @@ const SignUpStyleSheet = StyleSheet.create({
     paddingLeft: 16,
   },
   button: {
-    backgroundColor: '#2485F8',
+    backgroundColor: '#AFA767',
     marginLeft: 30,
     marginRight: 30,
     marginTop: 20,
@@ -42,7 +42,7 @@ const SignUpStyleSheet = StyleSheet.create({
     color: '#2e2e2d',
   },
   footerLink: {
-    color: '#2485F8',
+    color: '#AFA767',
     fontWeight: 'bold',
     fontSize: 16,
   },
